@@ -1,11 +1,11 @@
 package br.ufv.dpi.blockscombinations;
 
 public class Block {
-	private double height;
-	private double length;
+	private int height;
+	private int length;
 	private String name;
 	
-	public Block(double h, double l, String name)
+	public Block(int h, int l, String name)
 	{
 		this.setHeight(h);
 		this.setLength(l);
@@ -22,22 +22,22 @@ public class Block {
 		return this.name;
 	}
 
-	public double getHeight() 
+	public int getHeight() 
 	{
 		return height;
 	}
 
-	public void setHeight(double height) 
+	public void setHeight(int height) 
 	{
 		this.height = height;
 	}
 
-	public double getLength() 
+	public int getLength() 
 	{
 		return length;
 	}
 
-	public void setLength(double length) 
+	public void setLength(int length) 
 	{
 		this.length = length;
 	}

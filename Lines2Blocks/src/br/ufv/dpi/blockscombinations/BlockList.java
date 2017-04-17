@@ -18,6 +18,13 @@ public class BlockList {
 		blockNames.add(b.getName());
 	}
 	
+	public void add(String name)
+	{
+			Block b = FactoryBlock.create(name);
+			list.add(b);
+			blockNames.add(b.getName());
+	}
+			
 	public boolean remove(Block b)
 	{
 		blockNames.remove(b.getName());
@@ -34,8 +41,8 @@ public class BlockList {
 		return name;
 	}
 	
-	public double getX() {
-		double x = 0;
+	public int getX() {
+		int x = 0;
 		for (Block block : list)
 		{
 			x += block.getHeight();

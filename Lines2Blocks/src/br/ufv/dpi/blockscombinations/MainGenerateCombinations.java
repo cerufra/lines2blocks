@@ -6,7 +6,8 @@ public class MainGenerateCombinations {
 	{
 		CreateMap create = new CreateMap();
 		BlockList list = new BlockList();
-               	create.search(list, 2.0);
+        create.search(list, 50);
+        create.finish();
 	}
 
 }
