@@ -12,7 +12,7 @@ public class MapDistBlocks {
 
 	private HashMap<Integer, ArrayList<BlockList > > map;
 
-	public MapDistBlocks(String filename) 
+	MapDistBlocks(String filename) 
 	{
 		Scanner scanner;
 		try 
@@ -21,8 +21,15 @@ public class MapDistBlocks {
 			scanner = new Scanner(file);
 			while(scanner.hasNextLine())
 			{
-				String line = scanner.nextLine();
-				System.out.println(line);				
+				String line[] = scanner.nextLine().split(",");
+                                            int dis = Integer.parseInt(line[0]);
+                   String nom = line[1];
+                   String[] ary = nom.split("");
+              //     map.put(dis,ary);
+                 //  ArrayList<blocksList> blocksList =nom.split("");
+                 // blocksList.add(nom.split(""));
+                            // ArrayList<blocksList> blocksList =  Arrays.asList(ary);
+				//System.out.println(ary);				
 			}
 
 		} catch (FileNotFoundException e) 
@@ -30,5 +37,5 @@ public class MapDistBlocks {
 			e.printStackTrace();
 		}
 	}
-
 }
+
