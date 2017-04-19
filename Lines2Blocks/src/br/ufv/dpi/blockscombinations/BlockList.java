@@ -21,8 +21,11 @@ public class BlockList {
 	public void add(String name)
 	{
 			Block b = FactoryBlock.create(name);
-			list.add(b);
-			blockNames.add(b.getName());
+			if(b != null)
+			{
+				list.add(b);
+				blockNames.add(b.getName());
+			}
 	}
 			
 	public boolean remove(Block b)

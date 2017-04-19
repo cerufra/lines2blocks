@@ -31,9 +31,12 @@ public class FactoryBlock {
 		} else if(name.equals(rectBig))
 		{
 			b = new Block(19, 2, rectBig);
-		} else 
+		} else if(name.equals(rectMedium))
 		{
 			b = new Block(17, 2, rectMedium);
+		} else 
+		{
+			return null;
 		}
 		
 		return b;
