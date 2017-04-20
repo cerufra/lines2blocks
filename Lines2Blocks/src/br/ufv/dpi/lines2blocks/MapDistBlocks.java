@@ -6,11 +6,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
-
 import br.ufv.dpi.blockscombinations.BlockList;
+import java.math.BigDecimal;
 
 public class MapDistBlocks {
-
+       public static char[][] cenario;
+    public static int dx;
+    public static int dy;
+    public static String caden;
+    public static String cadeia;
+    public static BigDecimal descretizacao;
+    public static int qtde;
+    public static int qttde;
+    public static int bloqueado;
+    public static BigDecimal chao;// y minimo ou seja coordenadas y do chao nao vaira 
+    public static BigDecimal lado; //xminimo varia de a cordo com o cenario do unity por em quanto e 0 
+    public static int distancia;
+    private ArrayList<Point> ponto = new ArrayList<Point>();
 	private HashMap<Integer, ArrayList<BlockList > > map = new HashMap<Integer, ArrayList<BlockList > >();
 
 	MapDistBlocks(String filename) 
@@ -53,7 +65,54 @@ public class MapDistBlocks {
 	 * This method provides an example of how to iterate through the map.
 	 * In this example we simply print the blocks' length and their combination.
 	 */
-	public void printMap() {
+      /*  public MapDistBlocks(HashMap mapi)
+	{
+		this.setMap(mapi);
+		
+	}
+        
+        public void setMap(HashMap map) 
+	{
+		this.map = map;
+	}
+        public HashMap getMap() 
+	{
+		return this.map;
+	}*/
+        
+        public void distancia(){
+                    int tam = ponto.size();
+               for (int i = 0; i < tam-1; i++) {
+            //primeiro ponto
+            Point p1 =  ponto.get(i);
+            //segundo
+            Point p2 =ponto.get(i+1);
+            
+            //calculos
+         int  ax=p1.getPx();
+int ay= p1.getPy();
+int bx= p2.getPx();
+int by= p2.getPy();
+         int  anx = bx -ax; 
+        
+     int any= by-ay;  
+   
+  //  angulo= any.divide(anx);
+    int  anguloo = Math.round(any/anx);
+         
+  //  System.out.println("angulo: "      + angulo); 
+  
+   int ang =(int) Math.toDegrees((Math.atan(anguloo)));
+  
+         distancia =(int) Math.round( Math.sqrt( Math.pow( (ax - bx),2 ) +
+                               Math.pow( (ay - by),2 ) ));
+     
+    if (ang <= 0){
+        ang = 180+ang;
+    }
+        } 
+        }
+                public void printMap() {
 		Iterator<Integer> iter = map.keySet().iterator();
 
 		while(iter.hasNext()) 

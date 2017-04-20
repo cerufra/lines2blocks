@@ -19,6 +19,7 @@ public class CreateMap {
 		try 
 		{
 			out = new FileWriter(filename);
+                        out.flush();
 		} catch (IOException e) 
 		{
 			System.out.println("Couldn't find file " + filename);
