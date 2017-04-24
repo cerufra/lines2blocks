@@ -23,7 +23,7 @@ public class Point2Line {
 
    
 
-    public static String filen = "pontos";
+    public static String filen = "dataset\\pontos";
     Scanner scanne;
     private ArrayList<Point> ponto = new ArrayList<Point>();
 

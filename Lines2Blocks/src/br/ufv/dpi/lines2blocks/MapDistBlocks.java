@@ -1,5 +1,6 @@
 package br.ufv.dpi.lines2blocks;
 
+import br.ufv.dpi.blockscombinations.Block;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -99,10 +100,7 @@ int by= p2.getPy();
    
   //  angulo= any.divide(anx);
     int  anguloo = Math.round(any/anx);
-         
-  //  System.out.println("angulo: "      + angulo); 
-  
-   int ang =(int) Math.toDegrees((Math.atan(anguloo)));
+    int ang =(int) Math.toDegrees((Math.atan(anguloo)));
   
          distancia =(int) Math.round( Math.sqrt( Math.pow( (ax - bx),2 ) +
                                Math.pow( (ay - by),2 ) ));
@@ -110,6 +108,23 @@ int by= p2.getPy();
     if (ang <= 0){
         ang = 180+ang;
     }
+    int temp=0;
+    if (map.containsKey(distancia)){
+        temp =distancia;
+    }else{
+        Iterator<Integer> iter = map.keySet().iterator();
+        while(iter.next()>distancia){
+            temp= iter.next();
+        }
+    }
+     ArrayList<BlockList> arrayList = map.get(temp);
+     Iterator<BlockList> iterator = arrayList.iterator();
+     while(iterator.hasNext()){
+         BlockList blockilist = (BlockList) iterator.next();
+        String blocki= blockilist.getName();
+         ArrayList<Block> liste = new ArrayList<Block>();
+         blocke= liste.
+     }
         } 
         }
                 public void printMap() {

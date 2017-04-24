@@ -10,7 +10,7 @@ public class CreateMap {
 	private ArrayList<Block> blocksList = new ArrayList<Block>();
 	private HashSet<BlockList> closed = new HashSet<BlockList>();
 	private FileWriter out;
-	public static String filename = "dataset";
+	public static String filename = "dataset\\dataset";
 	
 	public CreateMap() {
 
