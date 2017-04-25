@@ -13,11 +13,15 @@ import java.math.BigDecimal;
 public class MapDistBlocks {
        public static char[][] cenario;
     public static int dx;
+    public static int ax;
+    public static int bx;
+     public static int ay;
+      public static int by;
     public static int dy;
     public static String caden;
     public static String cadeia;
     public static BigDecimal descretizacao;
-    public static int qtde;
+    public static int qtde; 
     public static int qttde;
     public static int bloqueado;
     public static BigDecimal chao;// y minimo ou seja coordenadas y do chao nao vaira 
@@ -90,11 +94,11 @@ public class MapDistBlocks {
             Point p2 =ponto.get(i+1);
             
             //calculos
-         int  ax=p1.getPx();
-int ay= p1.getPy();
-int bx= p2.getPx();
-int by= p2.getPy();
-         int  anx = bx -ax; 
+ ax=p1.getPx();
+ ay= p1.getPy();
+bx= p2.getPx();
+by= p2.getPy();
+int  anx = bx -ax; 
         
      int any= by-ay;  
    
@@ -122,8 +126,19 @@ int by= p2.getPy();
      while(iterator.hasNext()){
          BlockList blockilist = (BlockList) iterator.next();
         String blocki= blockilist.getName();
-         ArrayList<Block> liste = new ArrayList<Block>();
-         blocke= liste.
+         ArrayList<Block> blokk = new ArrayList<Block>();
+         Iterator<Block> itera = blokk.iterator();
+         while(itera.hasNext()){
+             Block ela = itera.next();
+             String nomm = ela.getName();
+           if(blocki.equals(nomm)){
+         int  lx = ela.getHeight();
+         
+           } else {
+               
+           }
+         }
+     
      }
         } 
         }
