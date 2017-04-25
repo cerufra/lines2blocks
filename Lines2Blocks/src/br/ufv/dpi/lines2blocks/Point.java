@@ -20,8 +20,6 @@ public class Point {
 		this.setPy(y);
 	}
 
-
-
 	public int getPx() 
 	{
 		return px;
