@@ -33,10 +33,7 @@ public class Point2Line
     public Point2Line(String filename)
     {
         map = new MapDistBlocks(filename);
-    }
-
-    public Point2Line() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //map.printMap();
     }
 
     public void readPoint(String filename) throws FileNotFoundException 
@@ -106,7 +103,7 @@ public class Point2Line
             Block block = (Block) iterator.next();
             String name = block.getName();
             int length = block.getLength();
-            int height = block.getHeight();
+            //int height = block.getHeight();
             r = length / distancenew;
             unknowpointx = (int) (firstpointx + r * (p2.getPx() + firstpointx));
             unknowpointy = (int) (firstpointy + r * (p2.getPy() + firstpointy));
@@ -121,11 +118,12 @@ public class Point2Line
             distancenew = distancenew - length;
         }
     }
+    
     public void createXml()
     {
         script = script + "\n" + "</GameObjects>" + "\n" + "</Level>";
         try {
-            out = new FileWriter("level-1.xml");
+            out = new FileWriter("level1.xml");
             out.write(script);
             out.close();
             //  outi.write(testString);
