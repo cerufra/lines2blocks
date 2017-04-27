@@ -16,13 +16,21 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import br.ufv.dpi.blockscombinations.Block;
+import static br.ufv.dpi.blockscombinations.CreateMap.filename;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class Point2Line {
 
 	private ArrayList<Line> linesList = new ArrayList<Line>();
 	private MapDistBlocks map;
-	
-	public Point2Line(String filename) 
+	//private ArrayList<String> script = new ArrayList<>();
+        private String script;
+        private BigDecimal floor;// Its the minimal y axis in the scene
+        private BigDecimal discretization;// transform the x axis in the unity x axis
+        private FileWriter out;
+	public Point2Line(String filename)           
 	{
 		map = new MapDistBlocks(filename);
 	}
@@ -33,7 +41,8 @@ public class Point2Line {
 		{
 			File file = new File(filename);
 			Scanner scanner = new Scanner(file);
-			
+			floor = new BigDecimal(-3.436699); 
+                        discretization=new BigDecimal(0.0998);
 			while (scanner.hasNextLine()) 
 			{
 				String points[] = scanner.nextLine().split(",");
@@ -49,7 +58,8 @@ public class Point2Line {
 			}
 			
 			scanner.close();
-			
+		        script = "<?xml version=\"1.0\" encoding=\"utf-16\"?>" + "\n" +"<Level width=\"2\">" + "\n" +"<Camera x=\"0\" y=\"-1\">" +" minWidth=\"15\" maxWidth=\"17.5\">"+"\n"+"<Birds>"+"\n"+"<Bird type=\"BirdBlue\"/>"+ "\n" +"<Bird type=\"BirdBlack\"/>"+"\n"+"<Bird type=\"BirdRed\"/>"+"\n"
+                          + "</Birds>" + "\n" + "<Slingshot x=\"-8.5\" y=\"-2.5\">" + "\n" + "<GameObjects>";	
 		} catch (FileNotFoundException e) 
 		{
 			e.printStackTrace();
@@ -77,16 +87,39 @@ public class Point2Line {
 		{
 			distancePointsMap = map.getClosest((Integer) distance);
 		}
-		
 		ArrayList<Block> list = map.getBlockList(distancePointsMap).getList();
-		for (Iterator<Block> iterator = list.iterator(); iterator.hasNext();) 
+		double r = 0;
+                int firstpointx = p1.getPx();
+                int firstpointy = p1.getPy();
+                int unknowpointx = 0;
+                int unknowpointy = 0;
+                int midlepointx = 0;
+                int midlepointy = 0;
+                BigDecimal unityx;
+                BigDecimal unityy;
+                int distancenew = distance;
+                for (Iterator<Block> iterator = list.iterator(); iterator.hasNext();) 
 		{
 			Block block = (Block) iterator.next();
 			String name = block.getName();
 			int length = block.getLength();
 			int height = block.getHeight();
-			
-			
+                        r= length/distancenew;   
+                        unknowpointx = (int) (firstpointx + r*(p2.getPx()+firstpointx));
+			unknowpointy = (int) (firstpointy + r*(p2.getPy()+firstpointy));
+			midlepointx = (int)((firstpointx + p2.getPx())/2);
+                        midlepointy = (int)((firstpointy + p2.getPy())/2);
+                        unityx= discretization.multiply( new BigDecimal(midlepointx));
+                        unityy = floor.add( new BigDecimal(midlepointy));
+                        String auxiliaryscript= "\n" + "<Block type=" + name + " material=" + "\"wood\"" + " x=\"" + unityx + "\" y=\"" + unityy + "\" rotation=\"" + degree + "\" />";
+                        script= script+auxiliaryscript;
+                        firstpointx= unknowpointx;
+                        firstpointy= unknowpointy;
+                        distancenew = distancenew- length;
 		}
 	}
+        public void createXml() {
+          script = script + "\n" + "</GameObjects>" + "\n" + "</Level>";
+               
+        }
 }
