@@ -6,6 +6,8 @@ public class Line2Blocks {
 	{
 		MapDistBlocks map = new MapDistBlocks("dataset\\dataset");
 		map.printMap();
-	}
+                Point2Line points = new Point2Line();
+                points.createXml();
+        }
 	
 }

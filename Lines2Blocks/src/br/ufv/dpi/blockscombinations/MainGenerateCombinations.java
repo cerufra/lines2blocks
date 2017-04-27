@@ -8,6 +8,6 @@ public class MainGenerateCombinations {
 		BlockList list = new BlockList();
         create.search(list, 50);
         create.finish();
-	}
+   	}
 
 }
