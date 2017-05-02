@@ -54,7 +54,7 @@ public class Point2Line
                 Point p2 = new Point(x2, y2);
                 Line line = new Line(p1, p2);
                 linesList.add(line);
-            }
+             }
 
             scanner.close();
             script = "<?xml version=\"1.0\" encoding=\"utf-16\"?>" + "\n" + "<Level width=\"2\">" + "\n" + "<Camera x=\"0\" y=\"-1\">" + " minWidth=\"15\" maxWidth=\"17.5\">" + "\n" + "<Birds>" + "\n" + "<Bird type=\"BirdBlue\"/>" + "\n" + "<Bird type=\"BirdBlack\"/>" + "\n" + "<Bird type=\"BirdRed\"/>" + "\n"
@@ -89,8 +89,10 @@ public class Point2Line
         }
         ArrayList<Block> list = map.getBlockList(distancePointsMap).getList();
         double r = 0;
-        int firstpointx = p1.getPx();
-        int firstpointy = p1.getPy();
+        int firstpointx = 0;//p1.getPx();
+        int firstpointy = 0;//p1.getPy();
+        int lastpointx = 0;
+        int lastpointy = 0;
         int unknowpointx = 0;
         int unknowpointy = 0;
         int midpointx = 0;
@@ -98,6 +100,18 @@ public class Point2Line
         BigDecimal unityx;
         BigDecimal unityy;
         int distancenew = distance;
+        if ( p1.getPy()< p2.getPy())
+        {
+            firstpointx= p2.getPx();
+            firstpointy= p2.getPy();
+            lastpointx= p1.getPx();
+            lastpointy= p1.getPy();
+        } else{
+            firstpointx= p1.getPx();
+            firstpointy= p1.getPy();
+            lastpointx= p2.getPx();
+            lastpointy= p2.getPy();
+        }
         for (Iterator<Block> iterator = list.iterator(); iterator.hasNext();) 
         {
             Block block = (Block) iterator.next();
@@ -105,10 +119,10 @@ public class Point2Line
             int length = block.getLength();
             //int height = block.getHeight();
             r = length / distancenew;
-            unknowpointx = (int) (firstpointx + r * (p2.getPx() + firstpointx));
-            unknowpointy = (int) (firstpointy + r * (p2.getPy() + firstpointy));
-            midpointx = (int) ((firstpointx + p2.getPx()) / 2);
-            midpointy = (int) ((firstpointy + p2.getPy()) / 2);
+            unknowpointx = (int) (firstpointx + r * (lastpointx + firstpointx));
+            unknowpointy = (int) (firstpointy + r * (lastpointy + firstpointy));
+            midpointx = (int) ((firstpointx + lastpointx) / 2);
+            midpointy = (int) ((firstpointy + lastpointy) / 2);
             unityx = discretization.multiply(new BigDecimal(midpointx));
             unityy = floor.add(new BigDecimal(midpointy));
             String auxiliaryscript = "\n" + "<Block type=" + name + " material=" + "\"wood\"" + " x=\"" + unityx + "\" y=\"" + unityy + "\" rotation=\"" + degree + "\" />";
