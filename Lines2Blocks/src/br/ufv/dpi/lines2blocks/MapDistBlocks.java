@@ -2,7 +2,6 @@ package br.ufv.dpi.lines2blocks;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -11,7 +10,8 @@ import br.ufv.dpi.blockscombinations.BlockList;
 
 public class MapDistBlocks {
 
-	private HashMap<Integer, ArrayList<BlockList > > map = new HashMap<Integer, ArrayList<BlockList > >();
+	//private HashMap<Integer, ArrayList<BlockList > > map = new HashMap<Integer, ArrayList<BlockList > >();
+	private HashMap<Integer, BlockList> map = new HashMap<Integer, BlockList>();
 
 	MapDistBlocks(String filename) 
 	{
@@ -35,12 +35,17 @@ public class MapDistBlocks {
 
 				if(!map.containsKey(length)) 
 				{
-					map.put(length, new ArrayList<>());
-					map.get(length).add(blockList);
+					//map.put(length, new ArrayList<>());
+					//map.get(length).add(blockList);
+					map.put(length, blockList);
 				}
 				else
 				{
-					map.get(length).add(blockList);
+					if(map.get(length).getList().size() > blockList.getList().size())
+					{
+						map.put(length, blockList);
+					}
+					//map.get(length).add(blockList);
 				}			
 			}
 		} catch (FileNotFoundException e) 
@@ -77,7 +82,8 @@ public class MapDistBlocks {
 	
 	public BlockList getBlockList(Integer i)
 	{
-		return map.get(i).get(0);
+		//return map.get(i).get(0);
+		return map.get(i);
 	}
 
 	/*
@@ -106,13 +112,15 @@ public class MapDistBlocks {
 		{
 			Integer i = iter.next();
 			System.out.println("\n\nLength: " + i);
-
+			System.out.println(map.get(i).getName());
+			/*
 			ArrayList<BlockList> arrayList = map.get(i);
 			for (Iterator<BlockList> iterator = arrayList.iterator(); iterator.hasNext();) 
 			{
 				BlockList blockList = (BlockList) iterator.next();
 				System.out.println(blockList.getName());
 			}
+			*/
 		}
 
 	}

@@ -10,7 +10,7 @@ public class CreateMap {
 	private ArrayList<Block> blocksList = new ArrayList<Block>();
 	private HashSet<BlockList> closed = new HashSet<BlockList>();
 	private FileWriter out;
-	public static String filename = "dataset";
+	public static String filename = "dataset1";
 	
 	public CreateMap() {
 
@@ -19,7 +19,7 @@ public class CreateMap {
 		try 
 		{
 			out = new FileWriter(filename);
-                        out.flush();
+            out.flush();
 		} catch (IOException e) 
 		{
 			System.out.println("Couldn't find file " + filename);

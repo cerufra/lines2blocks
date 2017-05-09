@@ -8,7 +8,7 @@ public class Line2Blocks {
 	{
 		try
 		{
-                Point2Line points2Line = new Point2Line("dataset");
+                Point2Line points2Line = new Point2Line("dataset1");
                 points2Line.readPoint("pontos");
                 points2Line.createXml();
         } catch(FileNotFoundException e)

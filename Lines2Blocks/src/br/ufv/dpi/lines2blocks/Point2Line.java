@@ -33,7 +33,7 @@ public class Point2Line
     public Point2Line(String filename)
     {
         map = new MapDistBlocks(filename);
-        //map.printMap();
+        map.printMap();
     }
 
     public void readPoint(String filename) throws FileNotFoundException 
