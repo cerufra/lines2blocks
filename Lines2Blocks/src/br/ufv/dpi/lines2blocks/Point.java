@@ -10,8 +10,8 @@ package br.ufv.dpi.lines2blocks;
  * @author dpimestrado
  */
 public class Point {
-	private int px;// cordenada x do ponto 
-	private int py;// cordenada y do ponto 
+    private int px;// cordenada x do ponto 
+    private int py;// cordenada y do ponto 
 
 	
 	public Point(int x, int y)
