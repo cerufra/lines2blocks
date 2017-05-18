@@ -31,8 +31,8 @@ public class Point2Line {
     private BigDecimal floor;// Its the minimal y axis in the scene
     private BigDecimal discretization;// transform the x axis in the unity x axis
     private FileWriter out;
-    private char scenery[][] = new char[70][70];
-    private int position[][] = new int[70][70];
+    private char scenery[][] = new char[100][100];
+    private int position[][] = new int[100][100];
     private int count;
     private char check;
 
@@ -45,7 +45,7 @@ public class Point2Line {
             File file = new File(filename);
             Scanner scanner = new Scanner(file);
             floor = new BigDecimal(-3.436699);
-            discretization = new BigDecimal(0.0998);
+            discretization = new BigDecimal(0.0942);
             while (scanner.hasNextLine()) {
                 String points[] = scanner.nextLine().split(",");
                 System.out.println(" >> " + points[0]);
@@ -85,9 +85,9 @@ public class Point2Line {
         }
         int distance = (int) Math.round(Math.sqrt(Math.pow((p2.getPx() - p1.getPx()), 2) + Math.pow(((p2.getPy()) - p1.getPy()), 2)));
         System.out.println("Distancia antiga: " + distance);
-        System.out.println("p1.getPx(): " + p1.getPx());     
-        System.out.println("p2.getPy(): " + p2.getPy());
-        System.out.println("p2.getPx() " + p2.getPx());    
+        System.out.println("p1.getPx(): " + p1.getPx());
+        System.out.println("p2.getPy(): " + p1.getPy());
+        System.out.println("p2.getPx() " + p2.getPx());
         System.out.println("p2.getPy() " + p2.getPy());
         int firstpointx = p1.getPx(); //p1.getPx()
         int firstpointy = p1.getPy(); //p1.getPy()
@@ -97,27 +97,62 @@ public class Point2Line {
         int unknowpointy = 0;
         int distancenew = distance;
         int height = 0;
-      /*  if (degree == 45) {
+        if (degree == 135) {
             firstpointx = p2.getPx();
             firstpointy = p2.getPy();
             lastpointx = p1.getPx();
-            lastpointy = p2.getPy();
-                System.out.println("firstpointx 45 in: " + firstpointx);
-                System.out.println("firstpointy 45 in : " + firstpointy);
-                System.out.println("lastpointx 45 in: " + lastpointx);
-                System.out.println("lastpointy45 in: " + lastpointy);
-        }  */
-        if ( degree == 180) {
-            
+            lastpointy = p1.getPy();
+        }
+        if (degree == 180) {
+            if (firstpointy == 0) 
+            {
+                System.out.println("aqui entrou pq fistpointy e 0 ");
+                firstpointx = p1.getPx() + 1;
+                lastpointx = p2.getPx() - 1;
+                System.out.println("old distance : " + distance);
+                distance = (int) Math.round(Math.sqrt(Math.pow((lastpointx - firstpointx), 2) + Math.pow((lastpointy - firstpointy), 2)));
+                System.out.println("180 new distance : " + distance);
+                distancenew = distance;
+                
+            }
+           
             degree = 0;
         }
-       
+        if (degree == 90) {
+            if (lastpointy < firstpointy) {
+                firstpointx = p2.getPx();
+                firstpointy = p2.getPy();
+                lastpointx = p1.getPx();
+                lastpointy = p1.getPy();
+            }
+        }
+        if (degree != 0) {
+            lastpointy = lastpointy - 1;
+            System.out.println("45 old distance : " + distance);
+            distance = (int) Math.round(Math.sqrt(Math.pow((lastpointx - firstpointx), 2) + Math.pow((lastpointy - firstpointy), 2)));
+            System.out.println("45 new distance : " + distance);
+            distancenew = distance;
+           /* else{
+                lastpointy = lastpointy - 1;
+            System.out.println("45 old distance : " + distance);
+            distance = (int) Math.round(Math.sqrt(Math.pow((lastpointx - firstpointx), 2) + Math.pow((lastpointy - firstpointy), 2)));
+            System.out.println("45 new distance : " + distance);
+            distancenew = distance;
+            }*/
+        }
+        System.out.println("firstpointx : " + firstpointx);
+        System.out.println("firstpointy : " + firstpointy);  
+        System.out.println("lastpointy : " + lastpointx);
+        System.out.println("lastpointy : " + lastpointy); 
+        System.out.println("degree : " + degree); 
         int distancePointsMap = 0;
-
+            System.out.println("distance entrando : " + distance);
         if (map.containsKey((Integer) distance)) {
+            System.out.println("distancePointsMap : " + distance);
             distancePointsMap = distance;
         } else {
             distancePointsMap = map.getClosest((Integer) distance);
+             System.out.println("distancePointsMap else : " + map.getClosest((Integer) distance));
         }
         ArrayList<Block> list = map.getBlockList(distancePointsMap).getList();
         int midpointx = 0;
@@ -130,12 +165,16 @@ public class Point2Line {
         BigDecimal unityynew;
         int keymap = 0;
         if ((degree == 90) || (degree == 0)) {
-            for (Iterator<Block> iterator = list.iterator(); iterator.hasNext();) {
-                count = count + 1;
+               System.out.println("firstpointx 90 ou 0: " + firstpointx);
+               System.out.println("firstpointy 90 ou 0: : " + firstpointy);  
+               System.out.println("lastpointy 90 ou 0:: " + lastpointx);
+               System.out.println("lastpointy 90 ou 0:: " + lastpointy); 
+               System.out.println("distance 90 ou 0:: " + distance); 
+               for (Iterator<Block> iterator = list.iterator(); iterator.hasNext();) {
                 Block block = (Block) iterator.next();
                 String name = block.getName();
                 height = block.getHeight();
-                BigDecimal fit = new BigDecimal("0.01");
+                BigDecimal fit = new BigDecimal("0.2");
                 double r = (double) (height) / (double) (distancenew);
                 unknowpointx = (int) (firstpointx + r * (lastpointx - firstpointx));
                 unknowpointy = (int) (firstpointy + r * (lastpointy - firstpointy));
@@ -146,7 +185,7 @@ public class Point2Line {
                 unityx = discretization.multiply(new BigDecimal(midpointx));
                 unityx = unityx.setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 auxunityy = discretization.multiply(new BigDecimal(midpointy));
-                unityy = floor.add(auxunityy.add(fit));
+                unityy = floor.add(auxunityy);
                 unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
                 String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + material + " x=\"" + unityx + "\" y=\"" + unityy + "\" rotation=\"" + degree + "\" />";
                 if (scriptmap.isEmpty()) {
@@ -174,6 +213,7 @@ public class Point2Line {
                         position[u + 1][t] = keymap;
                     }
                 }
+
                 scriptmap.put(keymap, auxiliaryscript);
                 Sequence sequence = new Sequence(name, firstpointx, firstpointy, unknowpointx, unknowpointy, degree);
                 sequenceblock.add(sequence);
@@ -183,176 +223,156 @@ public class Point2Line {
 
             }
         } else {
-            if (degree == 45){
-            System.out.println("----------------angulos diferente a 90 graus--------------------------------- ");
-            System.out.println("distancia 45 : " + distancenew);
-            BigDecimal fit = new BigDecimal("0.01");
-            BigDecimal fitx = new BigDecimal("0.21");
-            BigDecimal newfit = new BigDecimal("0.0");
-            String name = "RectSmall";//"RectTiny";//
-            height = 2;
-            distancenew = distancenew;
-           unknowpointx = 0;
-            while (distancenew > 2) {
-                double r = (double) (height) / (double) (distancenew);
-                unknowpointx = unknowpointx +1;
-                unknowpointy = (int) (firstpointy + 2);
-                int u = firstpointx +8;
-                 if (firstpointy > lastpointy){
-                    break;
-                }
-                midpointx = (int) ((firstpointx + u) / 2);
-                midpointy = (int) ((firstpointy + unknowpointy) / 2);
-             //  System.out.println("firstpointx 45: " + firstpointx);
-            //   System.out.println("firstpointy 45: " + firstpointy);
-            //  System.out.println("unknowpointyy 45: " + unknowpointy);
-           //   System.out.println("unknowpointx 45: " + unknowpointx);
-              //   System.out.println("u 45: " + u);
-               //  System.out.println("midpointx: " + midpointx);
-             //   System.out.println("lastpointy 45: " + lastpointy);
-             //   System.out.println("lastpointx45: " + lastpointx);
-             //   System.out.println("distancia 45 : " + distancenew);
-                auxunityy = discretization.multiply(new BigDecimal(midpointy));
-                unityy = (floor.add(auxunityy));
-                unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                unityx = (discretization.multiply(new BigDecimal(midpointx)));
-                unityx = unityx.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                unityx = fitx.add(unityx);
-                newfit = newfit.add(fit);
-                unityynew = unityy.add(newfit);
-                System.out.println("unityynew 45: " + unityynew);
-                String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + material + " x=\"" + unityx + "\" y=\"" + unityynew + "\" rotation=\"" + "0" + "\" />";
-                script3 = script3 + auxiliaryscript;
-                if (scriptmap.isEmpty()) {
-                    keymap = 1;
-                } else {
-                    keymap = scriptmap.lastKey() + 1;
-                }
-                count = firstpointy;
-                for (int t = firstpointx; t <=u; ++t) {
-
-                    scenery[count][t] = 'd';
-                    scenery[count + 1][t] = 'd';
-                    position[count][t] = keymap;
-                    position[count + 1][t] = keymap;
-                }
-
-                scriptmap.put(keymap, auxiliaryscript);
-                Sequence sequence = new Sequence(name, firstpointx, firstpointy, u, unknowpointy, degree);
-                sequenceblock.add(sequence);
-                firstpointx = unknowpointx;
-                firstpointy = unknowpointy;
-                distancenew = distancenew - height;
-             // System.out.println("f firstpointx 45: " + firstpointx);
-              //  System.out.println("f firstpointy 45: " + firstpointy);
-            //    System.out.println("f unknowpointyy 45: " + unknowpointy);
-             //   System.out.println("f unknowpointx 45: " + unknowpointx);
-            //    System.out.println("f lastpointy 45: " + lastpointy);
-           //     System.out.println("f lastpointx45: " + lastpointx);
-           //     System.out.println("f distancia 45 : " + distancenew);
-            }
-        } else{
+            if (degree == 45) {
+                System.out.println("----------------angulos diferente a 90 graus--------------------------------- ");
+                System.out.println("distancia 45 : " + distancenew);
+                BigDecimal fit = new BigDecimal("0.03");
+                BigDecimal fitx = new BigDecimal("0.03");
+                BigDecimal newfit = new BigDecimal("0.0");
+                String name = "RectSmall";//"RectTiny";//
+                height = 2;
+                distancenew = distancenew;
                 unknowpointx = 0;
-            firstpointx=firstpointx+4;
-            unknowpointx = firstpointx;
-         // firstpointy=firstpointy+8;
-            //    System.out.println("nao faço nada pq tenho 135 graus"); 
-             //    System.out.println("----------------angulos diferente a 90 graus--------------------------------- ");
-            BigDecimal fit = new BigDecimal("0.02");
-            BigDecimal fitx = new BigDecimal("0.22");
-            BigDecimal newfit = new BigDecimal("0.0");
-            String name = "RectSmall";//"RectTiny";//
-            height = 2;
-            while (distancenew > 2) {
-                double r = (double) (height) / (double) (distancenew);
-                unknowpointx = (int) unknowpointx + 1;
-                unknowpointy = (int) (firstpointy -2 );
-                if (firstpointy<0){
-                    break;
-                }
-                int u = firstpointx +9;
-                midpointx = (int) ((firstpointx + u) / 2);
-                midpointy = (int) ((firstpointy + unknowpointy) / 2);
-               // System.out.println("firstpointx 135: " + firstpointx);
-            //  System.out.println("firstpointy 135: " + firstpointy);
-             //   System.out.println("lastpointy 135: " + lastpointy);
-             //   System.out.println("lastpointxx135: " + lastpointx);
-          //  System.out.println("unknowpointyy 135: " + unknowpointy);
-              //  System.out.println("unknowpointx 135: " + unknowpointx);
-             //   System.out.println("distancia 135 : " + distancenew);
-                auxunityy = discretization.multiply(new BigDecimal(midpointy));
-                unityy = (floor.add(auxunityy));
-                unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                unityx = (discretization.multiply(new BigDecimal(midpointx)));
-                unityx = unityx.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                unityx = fitx.add(unityx);
-                newfit = newfit.add(fit);
-                unityynew = unityy.add(newfit);
-                unityynew = unityy.add(newfit);
-                System.out.println("unityynew 135: " + unityynew);
-                String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + material + " x=\"" + unityx + "\" y=\"" + unityynew + "\" rotation=\"" + "0" + "\" />";
-                script3 = script3 + auxiliaryscript;
-                if (scriptmap.isEmpty()) {
-                    keymap = 1;
-                } else {
-                    keymap = scriptmap.lastKey() + 1;
-                }
-                count = firstpointy;
-                for (int t = u; t >=firstpointx; t--) {
+                while (distancenew > 2) {
+                    double r = (double) (height) / (double) (distancenew);
+                    unknowpointx =  firstpointx + 1;
+                    unknowpointy = (int) (firstpointy + 2);
+                    int u = firstpointx + 8;
+                    System.out.println("firstpointx 45: " + firstpointx);
+                     System.out.println("firstpointy 45: " + firstpointy);
+                    System.out.println("firstpointx u: " + u);
+                    if (firstpointy > lastpointy) {
+                        break;
+                    }
+                    midpointx = (int) ((firstpointx + u) / 2);
+                    midpointy = (int) ((firstpointy + unknowpointy) / 2);
+                    auxunityy = discretization.multiply(new BigDecimal(midpointy));
+                    unityy = (floor.add(auxunityy));
+                    unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    unityx = (discretization.multiply(new BigDecimal(midpointx)));
+                    unityx = unityx.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    unityx = fitx.add(unityx);
+                    newfit = newfit.add(fit);
+                    unityynew = unityy.add(newfit);
+                    System.out.println("unityynew 45: " + unityynew);
+                    String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + material + " x=\"" + unityx + "\" y=\"" + unityynew + "\" rotation=\"" + "0" + "\" />";
+                    script3 = script3 + auxiliaryscript;
+                    if (scriptmap.isEmpty()) {
+                        keymap = 1;
+                    } else {
+                        keymap = scriptmap.lastKey() + 1;
+                    }
+                    count = firstpointy;
+                    for (int t = firstpointx; t <= u; ++t) {
 
-                    scenery[count][t] = 'e';
-                    scenery[count + 1][t] = 'e';
-                    position[count][t] = keymap;
-                    position[count + 1][t] = keymap;
-                }
+                        scenery[count][t] = 'd';
+                        scenery[count + 1][t] = 'd';
+                        position[count][t] = keymap;
+                        position[count + 1][t] = keymap;
+                    }
 
-                scriptmap.put(keymap, auxiliaryscript);
-                Sequence sequence = new Sequence(name, firstpointx, firstpointy, u, unknowpointy, degree);
-                sequenceblock.add(sequence);
-                firstpointx = unknowpointx;
-                firstpointy = unknowpointy;
-                distancenew = distancenew - height;
+                    scriptmap.put(keymap, auxiliaryscript);
+                    Sequence sequence = new Sequence(name, firstpointx, firstpointy, u, unknowpointy, degree);
+                    sequenceblock.add(sequence);
+                    firstpointx = unknowpointx;
+                    firstpointy = unknowpointy;
+                    distancenew = distancenew - height;
+                }
+            } else {
+                unknowpointx = 0;
+                firstpointx = firstpointx;
+                unknowpointx = firstpointx;
+                BigDecimal fit = new BigDecimal("0.03");
+                BigDecimal fitx = new BigDecimal("0.01");
+                BigDecimal newfit = new BigDecimal("0.0");
+                String name = "RectSmall";//"RectTiny";//
+                height = 2;
+                while (distancenew > 2) {
+                    double r = (double) (height) / (double) (distancenew);
+                    unknowpointx = (int) unknowpointx - 1;
+                    unknowpointy = (int) (firstpointy + 2);
+                    if (firstpointy > lastpointy) {
+                        break;
+                    }
+                    int u = firstpointx - 8;
+                    midpointx = (int) ((firstpointx + u) / 2);
+                    midpointy = (int) ((firstpointy + unknowpointy) / 2);
+                    // System.out.println("firstpointx 135: " + firstpointx);
+                    System.out.println("firstpointy 135: " + firstpointy);
+                    System.out.println("lastpointy 135: " + lastpointy);
+                    auxunityy = discretization.multiply(new BigDecimal(midpointy));
+                    unityy = (floor.add(auxunityy));
+                    unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    unityx = (discretization.multiply(new BigDecimal(midpointx)));
+                    unityx = unityx.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                    unityx = fitx.add(unityx);
+                    newfit = newfit.add(fit);
+                    unityynew = unityy.add(newfit);
+                    unityynew = unityy.add(newfit);
+                    System.out.println("unityynew 135: " + unityynew);
+                    String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + material + " x=\"" + unityx + "\" y=\"" + unityynew + "\" rotation=\"" + "0" + "\" />";
+                    script3 = script3 + auxiliaryscript;
+                    if (scriptmap.isEmpty()) {
+                        keymap = 1;
+                    } else {
+                        keymap = scriptmap.lastKey() + 1;
+                    }
+                    count = firstpointy;
+                    System.out.println("in firstpointx: " + firstpointx);
+                    System.out.println("in u: " + u);
+                    for (int t = u; t <= firstpointx; ++t) {
+                        System.out.println("in firstpointx: " + firstpointx);
+                        System.out.println("in u: " + u);
+                        scenery[count][t] = 'e';
+                        scenery[count + 1][t] = 'e';
+                        position[count][t] = keymap;
+                        position[count + 1][t] = keymap;
+                    }
+
+                    scriptmap.put(keymap, auxiliaryscript);
+                    Sequence sequence = new Sequence(name, firstpointx, firstpointy, u, unknowpointy, degree);
+                    sequenceblock.add(sequence);
+                    firstpointx = unknowpointx;
+                    firstpointy = unknowpointy;
+                    distancenew = distancenew - height;
+                }
             }
         }
-      //  System.out.println("-----------------fim-------------------------------- ");
     }
-    }
-    //Sequence sequence
 
     public void createBase() {
 
         int x1, x2, x3, y1, y2 = 0;
         for (Iterator<Sequence> iterator = sequenceblock.iterator(); iterator.hasNext();) {
-
             Sequence sequence = (Sequence) iterator.next();
-            int bgx = sequence.getBeginx();
-            int bgy = sequence.getBeginy();
-            int edx = sequence.getEndx();
-            int edy = sequence.getEndy();
-            String nm = sequence.getBlockname();
+            int beginx = sequence.getBeginx();
+            int beginy = sequence.getBeginy();
+            int endx = sequence.getEndx();
+            int endy = sequence.getEndy();
+            String blockname = sequence.getBlockname();
             System.out.println("-----------------inicio da peça-------------------------------- ");
-            System.out.println("Blockname: " + nm);
-            System.out.println("ponto inicial x: " + bgx);
-            System.out.println("ponto inicial y: " + bgy);
-            System.out.println("ponto final x: " + edx);
-            System.out.println("ponto final y: " + edy);
+            System.out.println("Blockname: " + blockname);
+            System.out.println("ponto inicial x: " + beginx);
+            System.out.println("ponto inicial y: " + beginy);
+            System.out.println("ponto final x: " + endx);
+            System.out.println("ponto final y: " + endy);
             double dgre = sequence.getDegree();
             System.out.println("angulo da peça: " + dgre);
-            if ((bgy == 0) || (edy == 0)) {
+            if ((beginy == 0) || (endy == 0)) {
                 System.out.println("no chão nao precisa");
                 System.out.println("-----------------fim da peça-------------------------------- ");
             } else {
 
-                System.out.println("entrou aqui " + nm);
+                System.out.println("entrou aqui " + blockname);
                 if (dgre == 90.0) {
-                    x1 = bgx;
-                    x2 = bgx + 1;
-                    y1 = bgy - 1;
+                    x1 = beginx;
+                    x2 = beginx + 1;
+                    y1 = beginy - 1;
                 } else {
-                    x1 = bgx;
-                    x2 = edx;
-                    y1 = bgy - 1;
-                    check = scenery[bgy + 2][x2];
+                    x1 = beginx;
+                    x2 = endx;
+                    y1 = beginy - 1;
+                    check = scenery[beginy + 4][x2];
                     System.out.println("check" + check + "--");
 
                 }
@@ -367,7 +387,10 @@ public class Point2Line {
                 System.out.println("check1 " + (check1 == '\u0000'));
                 System.out.println("check2 " + check2);
                 System.out.println("check " + check);
-                if (check != 'd') {
+               if (check1 == 'e') {
+                   break;
+               }
+                if (check1 != 'd') {
                     System.out.println("entrou aqui pq o check e =: " + check);
 
                     if (check1 == '\u0000') { // verifica se e vacio 
@@ -380,7 +403,6 @@ public class Point2Line {
                                 System.out.println("valor do y2 do eixo x1: " + y2);
                             }
                         }
-                        y1 = y1 - 1;
                         int distance = (int) Math.round(Math.sqrt(Math.pow((x1 - x1), 2) + Math.pow((y2 - y1), 2)));
                         System.out.println("Distancia do y1 ate y2 do eixo x1: " + distance);
                         int distancePointsMap = 0;
@@ -420,7 +442,7 @@ public class Point2Line {
                             BigDecimal auxunityy = discretization.multiply(new BigDecimal(midpointy));
                             BigDecimal unityy = floor.add(auxunityy.add(fit));
                             unityy = unityy.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-                            String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + "\"" + "ice" + "\""  + " x=\"" + unityx + "\" y=\"" + unityy + "\" rotation=\"" + 90 + "\" />";
+                            String auxiliaryscript = "\n" + "<Block type=" + "\"" + name + "\"" + " material=" + "\"" + "ice" + "\"" + " x=\"" + unityx + "\" y=\"" + unityy + "\" rotation=\"" + 90 + "\" />";
                             script3 = script3 + auxiliaryscript;
                             for (int i = firstpointy; i <= unknowpointy + 1; ++i) {
                                 int j = firstpointx;
@@ -432,10 +454,13 @@ public class Point2Line {
                             distancenew = distancenew - height;
                         }
                     } else {
-                        System.out.println("tem suporte no eixo x1 a peça " + nm);
+                        System.out.println("tem suporte no eixo x1 a peça " + blockname);
                     }
                     if (check2 == '\u0000') {
                         y2 = 0;
+                         /*  if (check1 == 'x'&& dgre != 0){
+                          y1 = y1 +1; 
+                        }*/
                         for (int d = y1; d > 0; d--) {
                             char check4 = scenery[d][x2];
                             if (check4 != '\u0000') {
@@ -444,9 +469,7 @@ public class Point2Line {
                                 break;
                             }
                         }
-                        y1 = y1 - 1;
                         int distance = (int) Math.round(Math.sqrt(Math.pow((x2 - x2), 2) + Math.pow((y2 - y1), 2)));
-
                         int distancePointsMap = 0;
                         System.out.println("Distancia do y1 ate y2 do eixo x2: " + distance);
                         if (map.containsKey((Integer) distance)) {
@@ -493,15 +516,17 @@ public class Point2Line {
                                 scenery[i][j] = 'c';
                                 scenery[i][j + 1] = 'c';
                             }
-                           firstpointx = unknowpointx;
+                            firstpointx = unknowpointx;
                             firstpointy = unknowpointy;
                             distancenew = distancenew - height;
                         }
-                    } else {
-                        System.out.println("tem suporte no eixo x2 a peça " + nm);
+                        scenery[y2][x2]='2';
+                        scenery[y1][x2]='1';
+                         } else {
+                        System.out.println("tem suporte no eixo x2 a peça " + blockname);
                     }
                 } else {
-                    System.out.println("e uma peça de 45 graus " + nm);
+                    System.out.println("e uma peça de 45 graus " + blockname);
                 }
             }
         }
